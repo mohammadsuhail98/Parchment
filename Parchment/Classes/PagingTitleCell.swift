@@ -40,22 +40,11 @@ open class PagingTitleCell: PagingCell {
   open func configure() {
     contentView.addSubview(titleLabel)
     contentView.isAccessibilityElement = true
-    titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    
-    let horizontalConstraints = NSLayoutConstraint.constraints(
-      withVisualFormat: "H:|-20-[label]-20-|",
-      options: NSLayoutConstraint.FormatOptions(),
-      metrics: nil,
-      views: ["label": titleLabel])
-    
-    let verticalContraints = NSLayoutConstraint.constraints(
-      withVisualFormat: "V:|[label]|",
-      options: NSLayoutConstraint.FormatOptions(),
-      metrics: nil,
-      views: ["label": titleLabel])
-    
-    contentView.addConstraints(horizontalConstraints)
-    contentView.addConstraints(verticalContraints)
+  }
+  
+  open override func layoutSubviews() {
+    super.layoutSubviews()
+    titleLabel.frame = contentView.bounds
   }
   
   open func configureTitleLabel() {
@@ -76,7 +65,6 @@ open class PagingTitleCell: PagingCell {
   }
 
   open func configureAccessibility() {
-    accessibilityIdentifier = viewModel?.title
     contentView.accessibilityLabel = viewModel?.title
     contentView.accessibilityTraits = viewModel?.selected ?? false ? .selected : .none
   }
